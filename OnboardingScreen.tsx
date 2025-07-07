@@ -9,7 +9,7 @@ const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ navigation }) => {
       <StatusBar barStyle="dark-content" />
       <View style={styles.container}>
         <View style={styles.content}>
-          <Text style={styles.title}>What's up</Text>
+          <Text style={styles.title}>What's u</Text>
           <Image
             source={require('./assets/dating-app.png') as ImageSourcePropType}
             style={styles.illustration}
