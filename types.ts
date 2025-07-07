@@ -1,11 +1,12 @@
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+// Impor tipe data dari pustaka yang benar
 import { FirebaseAuthTypes } from '@react-native-firebase/auth';
 
 // Mendefinisikan parameter yang akan dikirim antar halaman
 export type RootStackParamList = {
   Onboarding: undefined;
   Verification: undefined;
-  // Ganti parameter menjadi objek 'confirmation'
+  // Saat menggunakan RNF, kita mengirim objek 'confirmation' ke halaman OTP
   Otp: { confirmation: FirebaseAuthTypes.ConfirmationResult }; 
 };
 
