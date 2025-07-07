@@ -1,47 +1,29 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View, TextInput, TouchableOpacity, SafeAreaView, Alert, ViewStyle, TextStyle } from 'react-native';
 import { Feather } from '@expo/vector-icons';
-// Impor dari 'firebase/auth' standar, bukan 'react-native'
-import { PhoneAuthProvider, RecaptchaVerifier } from 'firebase/auth';
-import { auth } from './firebaseConfig';
+// Impor dari pustaka yang benar, tidak ada lagi RecaptchaVerifier
+import auth from '@react-native-firebase/auth';
 import { VerificationScreenProps } from './types';
 
 const VerificationScreen: React.FC<VerificationScreenProps> = ({ navigation }) => {
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [loading, setLoading] = useState<boolean>(false);
-  
-  // Ref untuk menyimpan instance verifier
-  const recaptchaVerifier = useRef<RecaptchaVerifier | null>(null);
-
-  useEffect(() => {
-    // Membuat instance RecaptchaVerifier saat komponen dimuat.
-    // 'recaptcha-container' adalah ID elemen DOM yang akan dibuat oleh Firebase secara virtual.
-    try {
-      recaptchaVerifier.current = new RecaptchaVerifier(auth, 'recaptcha-container', {
-        'size': 'invisible',
-      });
-    } catch (error) {
-      console.error("Error creating RecaptchaVerifier:", error);
-    }
-  }, []);
 
   const sendVerificationCode = async () => {
-    if (!recaptchaVerifier.current) {
-      Alert.alert("Error", "reCAPTCHA verifier belum siap.");
+    if (phoneNumber.length < 9) {
+      Alert.alert("Nomor Tidak Valid", "Silakan masukkan nomor telepon yang valid.");
       return;
     }
     setLoading(true);
     const fullPhoneNumber = `+62${phoneNumber}`;
 
     try {
-      const phoneProvider = new PhoneAuthProvider(auth);
-      const verificationId = await phoneProvider.verifyPhoneNumber(
-        fullPhoneNumber,
-        recaptchaVerifier.current
-      );
+      // Sintaks dari React Native Firebase, jauh lebih sederhana!
+      const confirmation = await auth().signInWithPhoneNumber(fullPhoneNumber);
       
       setLoading(false);
-      navigation.navigate('Otp', { verificationId });
+      // Kirim objek 'confirmation' ke halaman Otp
+      navigation.navigate('Otp', { confirmation });
 
     } catch (err: any) {
       setLoading(false);
@@ -51,9 +33,6 @@ const VerificationScreen: React.FC<VerificationScreenProps> = ({ navigation }) =
 
   return (
     <SafeAreaView style={styles.safeArea}>
-      {/* Wadah reCAPTCHA yang tidak terlihat oleh pengguna */}
-      <View id="recaptcha-container" />
-      
       <View style={styles.container}>
         <Text style={styles.title}>Enter your phone number</Text>
         <Text style={styles.subtitle}>Please confirm your region and enter your phone number</Text>
