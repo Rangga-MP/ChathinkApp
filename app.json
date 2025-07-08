@@ -20,11 +20,12 @@
         "backgroundColor": "#ffffff"
       },
       "package": "com.ranggamp.chathinkapp",
-      "googleServicesFile": "./google-services.json" 
+      "googleServicesFile": "./google-services.json"
     },
     "plugins": [
       "@react-native-firebase/app",
-      "@react-native-firebase/auth"
+      "@react-native-firebase/auth",
+      "@react-native-firebase/firestore"
     ],
     "web": {
       "favicon": "./assets/favicon.png"
