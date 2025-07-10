@@ -3,9 +3,8 @@ import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 // Mendefinisikan parameter yang akan dikirim antar halaman
 export type RootStackParamList = {
   Onboarding: undefined;
-  Auth: undefined;
-  // Home sekarang menerima uid dan unicode
-  Home: { userId: string; unicode: string; }; 
+  Auth: undefined; // Halaman Auth tidak memerlukan parameter
+  Home: { userId: string }; // Halaman Home memerlukan userId sebagai string
 };
 
 // Mengekspor tipe props untuk setiap halaman

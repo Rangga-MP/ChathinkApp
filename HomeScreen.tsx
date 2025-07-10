@@ -4,12 +4,14 @@ import auth from '@react-native-firebase/auth';
 import { HomeScreenProps } from './types';
 
 const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
-  const { userId, unicode } = route.params;
+  // Ambil userId yang kita kirim dari AuthScreen
+  const { userId } = route.params;
 
   const handleLogout = () => {
     auth()
       .signOut()
       .then(() => {
+        // Ganti navigasi ke Onboarding setelah logout berhasil
         navigation.replace('Onboarding');
       });
   };
@@ -18,11 +20,7 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
         <Text style={styles.title}>Login Berhasil!</Text>
-        
-        <Text style={styles.subtitle}>Unicode (ID Publik) Anda:</Text>
-        <Text style={styles.unicodeText}>{unicode}</Text>
-
-        <Text style={styles.subtitle}>Firebase UID (ID Internal):</Text>
+        <Text style={styles.subtitle}>Unique ID (UID) Anda adalah:</Text>
         <Text style={styles.uidText}>{userId}</Text>
 
         <TouchableOpacity style={styles.button} onPress={handleLogout}>
@@ -34,23 +32,46 @@ const HomeScreen: React.FC<HomeScreenProps> = ({ route, navigation }) => {
 };
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: '#fff' },
-  container: { flex: 1, justifyContent: 'center', alignItems: 'center', padding: 20 },
-  title: { fontSize: 28, fontWeight: 'bold', marginBottom: 30 },
-  subtitle: { fontSize: 16, color: 'gray', marginTop: 20 },
-  unicodeText: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#1c1c1e',
-    backgroundColor: '#e8f0fe',
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-    borderRadius: 8,
-    marginTop: 5,
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#fff',
   },
-  uidText: { fontSize: 12, color: '#333', backgroundColor: '#f0f0f0', padding: 10, borderRadius: 5, fontFamily: 'monospace', marginTop: 5, marginBottom: 40 },
-  button: { backgroundColor: '#ff3b30', paddingVertical: 15, paddingHorizontal: 40, borderRadius: 10 },
-  buttonText: { color: '#fff', fontSize: 18, fontWeight: '600' },
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 20,
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  subtitle: {
+    fontSize: 16,
+    color: 'gray',
+    marginBottom: 20,
+  },
+  uidText: {
+    fontSize: 12,
+    color: '#333',
+    backgroundColor: '#f0f0f0',
+    padding: 10,
+    borderRadius: 5,
+    fontFamily: 'monospace', // Agar mudah dibaca
+    marginBottom: 40,
+  },
+  button: {
+    backgroundColor: '#ff3b30',
+    paddingVertical: 15,
+    paddingHorizontal: 40,
+    borderRadius: 10,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 18,
+    fontWeight: '600',
+  },
 });
 
 export default HomeScreen;
